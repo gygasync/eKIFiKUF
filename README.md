@@ -17,3 +17,7 @@ Moguće je i prijave sačuvati u PDF format radi štampe.
 Moguće je i otvoriti prethodne .csv prijave radi izmjene i pregleda.
 
 PDV broj se pamti između ponovnih pokretanja aplikacije.
+
+## Preuzimanje
+
+Release možete preuzeti na https://github.com/gygasync/eKIFiKUF/releases/tag/1.0.0
