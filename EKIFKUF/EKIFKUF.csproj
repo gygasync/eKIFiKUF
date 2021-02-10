@@ -64,11 +64,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SlogIsporuka.cs" />
-    <Compile Include="SlogNabavka.cs" />
-    <Compile Include="SlogPrateci.cs" />
-    <Compile Include="SlogPrateciIsporuka.cs" />
-    <Compile Include="SlogZaglavlje.cs" />
+    <Compile Include="Slogovi\SlogIsporuka.cs" />
+    <Compile Include="Slogovi\SlogNabavka.cs" />
+    <Compile Include="Slogovi\SlogPrateci.cs" />
+    <Compile Include="Slogovi\SlogPrateciIsporuka.cs" />
+    <Compile Include="Slogovi\SlogZaglavlje.cs" />
     <Compile Include="Tools.cs" />
     <EmbeddedResource Include="DataForm.resx">
       <DependentUpon>DataForm.cs</DependentUpon>
@@ -95,6 +95,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

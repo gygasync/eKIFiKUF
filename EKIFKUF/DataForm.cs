@@ -141,36 +141,25 @@ namespace EKIFKUF
 
         private string osvjeziSume(string imePolja)
         {
-            try
+            double suma = 0;
+            foreach (DataGridViewRow row in dataGrid.Rows)
             {
-                double suma = 0;
-                foreach (DataGridViewRow row in dataGrid.Rows)
+                try
                 {
                     if (row.Cells[imePolja].Value != null)
                         suma += Double.Parse(row.Cells[imePolja].Value.ToString());
                 }
-                return String.Format("{0:0.00}", suma);
+                catch (Exception) { }
             }
-            catch (Exception) { return "0.00"; }
+            return String.Format("{0:0.00}", suma);
         }
 
         private void btnSacuvaj_Click(object sender, EventArgs e)
         {
             string tip = Tip == "KUF" ? "1" : "2";
+            BrojSlogova = 0;
 
             // Slog zaglavlja http://www.new.uino.gov.ba/get/10399
-            /*
-            string zaglavlje = csvGenerator(new List<string>
-            {
-                "1",
-                PDV,
-                Period,
-                tip,
-                "01",
-                DateTime.Now.ToString("yyyy-MM-dd"),
-                DateTime.Now.ToString("HH:mm:ss"),
-            });
-            */
 
             string zaglavlje = new SlogZaglavlje(
                 "1",
@@ -178,8 +167,6 @@ namespace EKIFKUF
                 Period,
                 tip,
                 "01").ToCSV();
-
-            BrojSlogova++;
 
             var stavke = new StringBuilder();
 
@@ -202,31 +189,7 @@ namespace EKIFKUF
 
                     if (nullCheckFail)
                         continue;
-                    /*
-                    stavke.AppendLine(csvGenerator(new List<string>
-                    {
-                        "2",
-                        Period,
-                        row.Cells["redniBroj"].Value.ToString().Remove(row.Cells["redniBroj"].Value.ToString().Length - 1), // Uklanjanje tacke
-                        "01",
-                        row.Cells["brojFakture"].Value.ToString(),
-                        row.Cells["datumFakture"].Value.ToString(),
-                        row.Cells["datumFakture"].Value.ToString(),
-                        row.Cells["nazivDobavljaca"].Value.ToString(),
-                        row.Cells["sjedisteDobavljaca"].Value.ToString(),
-                        row.Cells["PDVbroj"].Value.ToString(),
-                        "4" + row.Cells["PDVbroj"].Value.ToString(),
-                        row.Cells["iznosBezPDV"].Value.ToString(),
-                        row.Cells["iznosSaPDV"].Value.ToString(),
-                        "0.00",
-                        row.Cells["iznosPDV"].Value.ToString(),
-                        "0.00",
-                        "0.00",
-                        "0.00",
-                        "0.00",
-                        "0.00",
-                    }));
-                    */
+
                     if (Tip == "KUF")
                     { 
                         stavke.AppendLine(new SlogNabavka(
@@ -269,26 +232,9 @@ namespace EKIFKUF
                 //MessageBox.Show(ex.Message);
             }
 
-            BrojSlogova++;
-            /*
-            string prateciSlog = csvGenerator(new List<string>
-            {
-                "3",
-                UkupnoBezPdv,
-                UkupnoSaPdv,
-                "0.00",
-                UkupnoPdv,
-                "0.00",
-                "0.00",
-                "0.00",
-                "0.00",
-                "0.00",
-                BrojSlogova.ToString()
-            });
-            */
             string prateciSlog;
 
-            if (tip == "KUF")
+            if (Tip == "KUF")
             {
                 prateciSlog = new SlogPrateci(
                     "3",
@@ -314,14 +260,14 @@ namespace EKIFKUF
                     {
                         try
                         {
-                            if (row.Cells["PDVbroj"].Value == null && row.Cells[0] != null) // Neregistrovan korisnik
+                            if (String.IsNullOrEmpty((string)row.Cells["PDVbroj"].Value) && row.Cells[0] != null) // Neregistrovan korisnik
                             {
                                 if (row.Cells["iznosBezPDV"].Value != null)
                                     sumaOsnovicaNeregistrovan += Double.Parse(row.Cells["iznosBezPDV"].Value.ToString());
                                 if (row.Cells["iznosPDV"].Value != null)
                                     sumaPdvNeregistrovan += Double.Parse(row.Cells["iznosPDV"].Value.ToString());
                             }
-                            if (row.Cells["PDVbroj"].Value != null)
+                            if (!String.IsNullOrEmpty((string)row.Cells["PDVbroj"].Value))
                             {
                                 if (row.Cells["iznosBezPDV"].Value != null)
                                     sumaOsnovicaRegistrovan += Double.Parse(row.Cells["iznosBezPDV"].Value.ToString());
@@ -338,6 +284,7 @@ namespace EKIFKUF
                     pdvNeregistrovan = String.Format("{0:0.00}", sumaPdvNeregistrovan);
                     osnovicaRegistrovan = String.Format("{0:0.00}", sumaOsnovicaRegistrovan);
                     pdvRegistrovan = String.Format("{0:0.00}", sumaPdvRegistrovan);
+                MessageBox.Show(osnovicaNeregistrovan + " " + pdvNeregistrovan + " " + osnovicaRegistrovan + " " + pdvRegistrovan);
 
 
                 prateciSlog = new SlogPrateciIsporuka(

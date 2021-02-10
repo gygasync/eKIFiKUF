@@ -37,6 +37,7 @@
             this.btnUlaz = new System.Windows.Forms.Button();
             this.btnIzlaz = new System.Windows.Forms.Button();
             this.btnOtvori = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -147,11 +148,23 @@
             this.btnOtvori.UseVisualStyleBackColor = true;
             this.btnOtvori.Click += new System.EventHandler(this.btnOtvori_Click);
             // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.SystemColors.ButtonShadow;
+            this.label4.Location = new System.Drawing.Point(9, 297);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(102, 13);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "2021 Igor Pejaković";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(637, 315);
+            this.ClientSize = new System.Drawing.Size(637, 319);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.btnOtvori);
             this.Controls.Add(this.btnIzlaz);
             this.Controls.Add(this.btnUlaz);
@@ -180,6 +193,7 @@
         private System.Windows.Forms.Button btnUlaz;
         private System.Windows.Forms.Button btnIzlaz;
         private System.Windows.Forms.Button btnOtvori;
+        private System.Windows.Forms.Label label4;
     }
 }
 

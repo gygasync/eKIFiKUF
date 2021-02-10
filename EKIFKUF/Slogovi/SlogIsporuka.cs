@@ -67,7 +67,7 @@ namespace EKIFKUF
             NazivKupca = nazivKupca;
             SjedisteKupca = sjedisteKupca;
             PDVBroj = pDVBroj;
-            if (PDVBroj == null)
+            if (PDVBroj == "")
             {
                 OsnovicaObracunPDVaRegistrovanObveznik = "0.00";
                 IznosIzlaznogPDVaRegistrovanObveznik = "0.00";

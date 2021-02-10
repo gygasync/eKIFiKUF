@@ -16,7 +16,29 @@ namespace EKIFKUF
         public Main()
         {
             InitializeComponent();
+
+            // Provjeri da li postoji config.ini
+            try
+            {
+                if (File.Exists("config.ini"))
+                {
+                    foreach (var row in File.ReadAllLines("config.ini"))
+                        Config.Add(row.Split('=')[0], string.Join("=", row.Split('=').Skip(1).ToArray()));
+
+                    PDV = Config["pdv"];
+                }
+                else
+                    File.Create("config.ini");
+            }
+            catch (Exception)
+            {
+                // Ne zali se
+            }
+
+            txtPDV.Text = PDV;
+
         }
+        private Dictionary<string, string> Config { get; set; } = new Dictionary<string, string>();
 
         private string PDV { get; set; }
         private int Godina { get; set; }
@@ -62,7 +84,21 @@ namespace EKIFKUF
             Godina = Int32.Parse(godina);
             Mjesec = mjesec;
 
+            Config["pdv"] = PDV;
+
+            WriteConfig();
+
             return "OK";
+        }
+
+        public void WriteConfig()
+        {
+            List<string> writer = new List<string>();
+
+            foreach(var entry in Config)
+                writer.Add($"{entry.Key}={entry.Value}");
+
+            File.WriteAllLines("config.ini", writer.ToArray());
         }
 
         private void btnIzlaz_Click(object sender, EventArgs e)
@@ -101,7 +137,7 @@ namespace EKIFKUF
 
                         IList <string[]> polja = new List<string[]>();
 
-                        for (int i = 1; i < filelines.Length - 2; i++)
+                        for (int i = 1; i < filelines.Length - 1; i++)
                         {
                             string[] temp = new string[9];
                             string[] poljaSplit = filelines[i].Split(';');
@@ -119,9 +155,17 @@ namespace EKIFKUF
                                 temp[8] = poljaSplit[12];
 
                             }
-                            else
+                            else // KIF
                             {
-
+                                temp[0] = poljaSplit[2] + ".";
+                                temp[1] = poljaSplit[4];
+                                temp[2] = poljaSplit[5];
+                                temp[3] = poljaSplit[6];
+                                temp[4] = poljaSplit[7];
+                                temp[5] = poljaSplit[8];
+                                temp[6] = temp[5] == "" ? poljaSplit[16] : poljaSplit[14];
+                                temp[7] = temp[5] == "" ? poljaSplit[17] : poljaSplit[15];
+                                temp[8] = poljaSplit[10];
                             }
 
                             polja.Add(temp);
