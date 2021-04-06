@@ -67,7 +67,7 @@ namespace EKIFKUF
             NazivKupca = nazivKupca;
             SjedisteKupca = sjedisteKupca;
             PDVBroj = pDVBroj;
-            if (PDVBroj == "")
+            if (String.IsNullOrEmpty(PDVBroj))
             {
                 OsnovicaObracunPDVaRegistrovanObveznik = "0.00";
                 IznosIzlaznogPDVaRegistrovanObveznik = "0.00";

@@ -202,7 +202,7 @@ namespace EKIFKUF
                             row.Cells["datumFakture"].Value.ToString(),
                             row.Cells["nazivDobavljaca"].Value.ToString(),
                             row.Cells["sjedisteDobavljaca"].Value.ToString(),
-                            row.Cells["PDVbroj"].Value == null ? null : row.Cells["PDVbroj"].Value.ToString(),
+                            String.IsNullOrEmpty(row.Cells["PDVbroj"].Value?.ToString()) ? null : row.Cells["PDVbroj"].Value.ToString(),
                             row.Cells["iznosBezPDV"].Value.ToString(),
                             row.Cells["iznosSaPDV"].Value.ToString(),
                             row.Cells["iznosPDV"].Value.ToString()).ToCSV());
@@ -218,7 +218,7 @@ namespace EKIFKUF
                             row.Cells["datumFakture"].Value.ToString(),
                             row.Cells["nazivDobavljaca"].Value.ToString(),
                             row.Cells["sjedisteDobavljaca"].Value.ToString(),
-                            row.Cells["PDVbroj"].Value == null ? null : row.Cells["PDVbroj"].Value.ToString(),
+                            String.IsNullOrEmpty(row.Cells["PDVbroj"].Value?.ToString()) ? null : row.Cells["PDVbroj"].Value.ToString(),
                             row.Cells["iznosSaPDV"].Value.ToString(),
                             row.Cells["iznosBezPDV"].Value.ToString(),
                             row.Cells["iznosPDV"].Value.ToString()).ToCSV());
@@ -284,7 +284,6 @@ namespace EKIFKUF
                     pdvNeregistrovan = String.Format("{0:0.00}", sumaPdvNeregistrovan);
                     osnovicaRegistrovan = String.Format("{0:0.00}", sumaOsnovicaRegistrovan);
                     pdvRegistrovan = String.Format("{0:0.00}", sumaPdvRegistrovan);
-                MessageBox.Show(osnovicaNeregistrovan + " " + pdvNeregistrovan + " " + osnovicaRegistrovan + " " + pdvRegistrovan);
 
 
                 prateciSlog = new SlogPrateciIsporuka(
@@ -350,6 +349,7 @@ namespace EKIFKUF
                     {
                         try
                         {
+                            var font = FontFactory.GetFont("Tahoma", 9);
                             PdfPTable pdfTable = new PdfPTable(dataGrid.Columns.Count);
                             pdfTable.DefaultCell.Padding = 3;
                             pdfTable.WidthPercentage = 100;
@@ -366,7 +366,7 @@ namespace EKIFKUF
                                 foreach (DataGridViewCell cell in row.Cells)
                                 {
                                     if (cell.Value != null)
-                                        pdfTable.AddCell(cell.Value.ToString());
+                                        pdfTable.AddCell(new Phrase(cell.Value.ToString(), font));
                                     else
                                         pdfTable.AddCell("");
                                 }
@@ -374,13 +374,14 @@ namespace EKIFKUF
 
                             using (FileStream stream = new FileStream(sfd.FileName, FileMode.Create))
                             {
+                                
                                 Document pdfDoc = new Document(PageSize.A4, 10f, 20f, 20f, 10f);
                                 PdfWriter.GetInstance(pdfDoc, stream);
                                 pdfDoc.Open();
                                 pdfDoc.Add(pdfTable);
-                                pdfDoc.Add(new Paragraph($"Osnovica: {UkupnoBezPdv}", FontFactory.GetFont("Tahoma", 16)));
-                                pdfDoc.Add(new Paragraph($"Porez: {UkupnoPdv}", FontFactory.GetFont("Tahoma", 16)));
-                                pdfDoc.Add(new Paragraph($"Ukupno: {UkupnoSaPdv}", FontFactory.GetFont("Tahoma", 16)));
+                                pdfDoc.Add(new Paragraph($"Osnovica: {UkupnoBezPdv}", font));
+                                pdfDoc.Add(new Paragraph($"Porez: {UkupnoPdv}", font));
+                                pdfDoc.Add(new Paragraph($"Ukupno: {UkupnoSaPdv}", font));
                                 pdfDoc.Close();
                                 stream.Close();
                             }

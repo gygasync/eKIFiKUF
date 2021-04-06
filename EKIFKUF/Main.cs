@@ -163,8 +163,8 @@ namespace EKIFKUF
                                 temp[3] = poljaSplit[6];
                                 temp[4] = poljaSplit[7];
                                 temp[5] = poljaSplit[8];
-                                temp[6] = temp[5] == "" ? poljaSplit[16] : poljaSplit[14];
-                                temp[7] = temp[5] == "" ? poljaSplit[17] : poljaSplit[15];
+                                temp[6] = String.IsNullOrEmpty(temp[5]) ? poljaSplit[16] : poljaSplit[14];
+                                temp[7] = String.IsNullOrEmpty(temp[5]) ? poljaSplit[17] : poljaSplit[15];
                                 temp[8] = poljaSplit[10];
                             }
 
