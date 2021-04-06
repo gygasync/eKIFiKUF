@@ -20,4 +20,4 @@ PDV broj se pamti između ponovnih pokretanja aplikacije.
 
 ## Preuzimanje
 
-Release možete preuzeti na https://github.com/gygasync/eKIFiKUF/releases/tag/1.0.0
+Release možete preuzeti na https://github.com/gygasync/eKIFiKUF/releases
